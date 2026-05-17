@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tournoi à 6 — FC Thierrens</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',sans-serif;background:#fff;color:#111;padding:12px}
+.header{background:#CC2222;border-radius:8px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2rem;color:#fff;text-transform:uppercase;letter-spacing:2px}
+.subtitle{font-family:'Barlow Condensed',sans-serif;color:rgba(255,255,255,.8);font-size:.95rem;letter-spacing:2px;text-transform:uppercase}
+.meta{text-align:right;color:#fff}
+.meta-score{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:700}
+.meta-next{font-size:.8rem;color:rgba(255,255,255,.75)}
+.updated{text-align:right;font-size:.75rem;color:#999;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.group-card{background:#f7f7f7;border:1px solid #e0e0e0;border-radius:8px;padding:14px}
+.group-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:#CC2222;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid #CC2222;padding-bottom:5px;margin-bottom:8px}
+.section-label{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:2px;margin:10px 0 4px}
+.standing-row{display:flex;align-items:center;padding:4px 5px;border-radius:4px;margin-bottom:2px;font-size:.85rem}
+.standing-row.leader{background:#CC2222;font-weight:700;color:#fff}
+.standing-rank{width:18px;color:#999;font-size:.75rem}
+.leader .standing-rank{color:rgba(255,255,255,.65)}
+.standing-name{flex:1;padding:0 5px}
+.standing-pts{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;min-width:28px;text-align:right;color:#111}
+.leader .standing-pts{color:#fff}
+.standing-gd{font-size:.75rem;color:#777;min-width:32px;text-align:right;padding-left:5px}
+.leader .standing-gd{color:rgba(255,255,255,.7)}
+.result-row{display:flex;align-items:center;gap:4px;font-size:.8rem;padding:2px 4px;margin-bottom:2px;color:#555}
+.rt{flex:1}.rt:last-child{text-align:right}
+.rs{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;color:#111;text-align:center;min-width:40px}
+.match-row{display:flex;align-items:center;gap:5px;padding:3px 5px;border-radius:4px;margin-bottom:2px;background:#efefef;font-size:.8rem;color:#333}
+.match-time{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:#CC2222;min-width:36px;font-size:.85rem}
+.match-terrain{background:#ddd;border-radius:3px;padding:1px 4px;font-size:.7rem;color:#555;min-width:20px;text-align:center}
+.match-teams{flex:1}.vs{color:#aaa}
+.done-text{color:#2e7d32;font-size:.8rem;padding:3px 5px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <div class="title">Tournoi à 6</div>
+    <div class="subtitle">FC Thierrens &nbsp;·&nbsp; 11 Juillet 2026</div>
+  </div>
+  <div class="meta">
+    <div class="meta-score">0 <span style="font-size:1rem;opacity:.7">/ 10 matchs</span></div>
+    <div class="meta-next">Prochain créneau : <b>09:00</b></div>
+  </div>
+</div>
+<div class="updated">Mis à jour à 21:32</div>
+<div class="grid"><div class="group-card"><div class="group-title">Groupe 1</div><div class="section-label">Classement</div><div class="standing-row leader"><span class="standing-rank">1</span><span class="standing-name">a</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="standing-row "><span class="standing-rank">2</span><span class="standing-name">rre</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="standing-row "><span class="standing-rank">3</span><span class="standing-name">eew</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="section-label">Prochains matchs</div><div class="match-row"><span class="match-time">09:00</span><span class="match-terrain">T1</span><span class="match-teams">rre <span class="vs">vs</span> eew</span></div><div class="match-row"><span class="match-time">09:15</span><span class="match-terrain">T1</span><span class="match-teams">a <span class="vs">vs</span> eew</span></div><div class="match-row"><span class="match-time">09:15</span><span class="match-terrain">T4</span><span class="match-teams">a <span class="vs">vs</span> rre</span></div></div><div class="group-card"><div class="group-title">Groupe 2</div><div class="section-label">Classement</div><div class="standing-row leader"><span class="standing-rank">1</span><span class="standing-name">c</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="standing-row "><span class="standing-rank">2</span><span class="standing-name">lmk</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="standing-row "><span class="standing-rank">3</span><span class="standing-name">wwwww</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="section-label">Prochains matchs</div><div class="match-row"><span class="match-time">09:00</span><span class="match-terrain">T2</span><span class="match-teams">lmk <span class="vs">vs</span> wwwww</span></div><div class="match-row"><span class="match-time">09:15</span><span class="match-terrain">T2</span><span class="match-teams">c <span class="vs">vs</span> wwwww</span></div><div class="match-row"><span class="match-time">09:30</span><span class="match-terrain">T1</span><span class="match-teams">c <span class="vs">vs</span> lmk</span></div></div><div class="group-card"><div class="group-title">Groupe 3</div><div class="section-label">Classement</div><div class="standing-row leader"><span class="standing-rank">1</span><span class="standing-name">b</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="standing-row "><span class="standing-rank">2</span><span class="standing-name">cc</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="standing-row "><span class="standing-rank">3</span><span class="standing-name">lk</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="section-label">Prochains matchs</div><div class="match-row"><span class="match-time">09:00</span><span class="match-terrain">T3</span><span class="match-teams">cc <span class="vs">vs</span> lk</span></div><div class="match-row"><span class="match-time">09:15</span><span class="match-terrain">T3</span><span class="match-teams">b <span class="vs">vs</span> lk</span></div><div class="match-row"><span class="match-time">09:30</span><span class="match-terrain">T2</span><span class="match-teams">b <span class="vs">vs</span> cc</span></div></div><div class="group-card"><div class="group-title">Groupe 4</div><div class="section-label">Classement</div><div class="standing-row leader"><span class="standing-rank">1</span><span class="standing-name">ccc</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="standing-row "><span class="standing-rank">2</span><span class="standing-name">rfrf</span><span class="standing-pts">0</span><span class="standing-gd">0</span></div><div class="section-label">Prochains matchs</div><div class="match-row"><span class="match-time">09:00</span><span class="match-terrain">T4</span><span class="match-teams">ccc <span class="vs">vs</span> rfrf</span></div></div></div>
+</body>
+</html>
