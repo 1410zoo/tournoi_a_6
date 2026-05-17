@@ -126,23 +126,45 @@ div[data-testid="stToolbar"] { visibility: hidden; }
 .standing-rank { width: 20px; color: #888888; font-size: 0.78rem; }
 .standing-row.leader .standing-rank { color: rgba(255,255,255,0.7); }
 .standing-name { flex: 1; padding: 0 6px; }
+.standing-mj {
+    font-size: 0.78rem;
+    color: #666666;
+    min-width: 28px;
+    text-align: right;
+    padding-left: 4px;
+}
+.standing-row.leader .standing-mj { color: rgba(255,255,255,0.7); }
 .standing-pts {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
     font-size: 1rem;
     color: #111111;
-    min-width: 32px;
+    min-width: 28px;
     text-align: right;
+    padding-left: 4px;
 }
 .standing-row.leader .standing-pts { color: #ffffff; }
 .standing-gd {
     font-size: 0.78rem;
     color: #666666;
-    min-width: 36px;
+    min-width: 34px;
     text-align: right;
-    padding-left: 6px;
+    padding-left: 4px;
 }
 .standing-row.leader .standing-gd { color: rgba(255,255,255,0.7); }
+.standing-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 6px 2px;
+    font-size: 0.68rem;
+    color: #999999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.standing-header .standing-name { flex: 1; }
+.sh-col { min-width: 28px; text-align: right; padding-left: 4px; }
+.sh-col-gd { min-width: 34px; text-align: right; padding-left: 4px; }
 
 /* ── Section prochains matchs ── */
 .next-title {
@@ -253,18 +275,29 @@ for col, group in zip(cols, groups):
         standings     = engine.compute_standings(team_ids, group_matches)
 
         # Classement
+        header_html = (
+            '<div class="standing-header">'
+            '<span class="standing-rank"></span>'
+            '<span class="standing-name"></span>'
+            '<span class="sh-col">MJ</span>'
+            '<span class="sh-col">P</span>'
+            '<span class="sh-col-gd">DB</span>'
+            '</div>'
+        )
         rows_html = ""
         for s in standings:
             name   = all_teams.get(s["team_id"], "?")
             gd_str = f"+{s['gd']}" if s["gd"] > 0 else str(s["gd"])
             cls    = "leader" if s["rank"] == 1 else "normal"
-            rows_html += f"""
-            <div class="standing-row {cls}">
-                <span class="standing-rank">{s['rank']}</span>
-                <span class="standing-name">{name}</span>
-                <span class="standing-pts">{s['pts']}</span>
-                <span class="standing-gd">{gd_str}</span>
-            </div>"""
+            rows_html += (
+                f'<div class="standing-row {cls}">'
+                f'<span class="standing-rank">{s["rank"]}</span>'
+                f'<span class="standing-name">{name}</span>'
+                f'<span class="standing-mj">{s["played"]}</span>'
+                f'<span class="standing-pts">{s["pts"]}</span>'
+                f'<span class="standing-gd">{gd_str}</span>'
+                f'</div>'
+            )
 
         # Prochains matchs
         upcoming = sorted(
@@ -291,6 +324,7 @@ for col, group in zip(cols, groups):
         st.markdown(
             f'<div class="group-card">'
             f'<div class="group-title">{group["name"]}</div>'
+            f'{header_html}'
             f'<div style="height:280px;overflow-y:auto">{rows_html}</div>'
             f'<div class="next-title">Prochains matchs</div>'
             f'{matches_html}'

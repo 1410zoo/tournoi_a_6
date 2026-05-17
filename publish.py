@@ -47,6 +47,15 @@ def generate_html() -> str:
         group_matches = [m for m in all_matches if m["group_id"] == group["id"]]
         standings = engine.compute_standings(team_ids, group_matches)
 
+        header_html = (
+            '<div class="sth">'
+            '<span class="standing-rank"></span>'
+            '<span class="standing-name"></span>'
+            '<span class="shc">MJ</span>'
+            '<span class="shc">P</span>'
+            '<span class="shcg">DB</span>'
+            '</div>'
+        )
         rows_html = ""
         for s in standings:
             name = all_teams.get(s["team_id"], "?")
@@ -56,6 +65,7 @@ def generate_html() -> str:
                 f'<div class="standing-row {cls}">'
                 f'<span class="standing-rank">{s["rank"]}</span>'
                 f'<span class="standing-name">{name}</span>'
+                f'<span class="standing-mj">{s["played"]}</span>'
                 f'<span class="standing-pts">{s["pts"]}</span>'
                 f'<span class="standing-gd">{gd_str}</span>'
                 f'</div>'
@@ -104,14 +114,50 @@ def generate_html() -> str:
             if results_html else ""
         )
 
+        # Tous les matchs (déroulable)
+        all_sorted = sorted(group_matches, key=lambda m: (m["scheduled_time"] or "99:99", m["id"]))
+        n_played_g = sum(1 for m in group_matches if m["played"])
+        all_rows = ""
+        for m in all_sorted:
+            t1 = all_teams.get(m["team1_id"], "?")
+            t2 = all_teams.get(m["team2_id"], "?")
+            tme = m.get("scheduled_time") or "—"
+            ter = f"T{m['terrain_num']}" if m.get("terrain_num") else ""
+            if m["played"]:
+                all_rows += (
+                    f'<div class="amr played">'
+                    f'<span class="mt" style="color:#2e7d32">{tme}</span>'
+                    f'<span class="mtr">{ter}</span>'
+                    f'<span class="mn">{t1}</span>'
+                    f'<span class="ms">{m["score1"]} – {m["score2"]}</span>'
+                    f'<span class="mn" style="text-align:right">{t2}</span>'
+                    f'</div>'
+                )
+            else:
+                all_rows += (
+                    f'<div class="amr">'
+                    f'<span class="mt">{tme}</span>'
+                    f'<span class="mtr">{ter}</span>'
+                    f'<span style="flex:1">{t1} <span class="vs">vs</span> {t2}</span>'
+                    f'</div>'
+                )
+        details_html = (
+            f'<details>'
+            f'<summary>Tous les matchs ({n_played_g} / {len(group_matches)} joués)</summary>'
+            f'<div style="margin-top:4px">{all_rows}</div>'
+            f'</details>'
+        )
+
         groups_html += (
             f'<div class="group-card">'
             f'<div class="group-title">{group["name"]}</div>'
             f'<div class="section-label">Classement</div>'
+            f'{header_html}'
             f'{rows_html}'
             f'{results_section}'
             f'<div class="section-label">Prochains matchs</div>'
             f'{matches_html}'
+            f'{details_html}'
             f'</div>'
         )
 
@@ -141,10 +187,16 @@ body{{font-family:'Barlow',sans-serif;background:#fff;color:#111;padding:12px}}
 .standing-rank{{width:18px;color:#999;font-size:.75rem}}
 .leader .standing-rank{{color:rgba(255,255,255,.65)}}
 .standing-name{{flex:1;padding:0 5px}}
-.standing-pts{{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;min-width:28px;text-align:right;color:#111}}
+.standing-mj{{font-size:.75rem;color:#777;min-width:26px;text-align:right;padding-left:4px}}
+.leader .standing-mj{{color:rgba(255,255,255,.7)}}
+.standing-pts{{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;min-width:26px;text-align:right;padding-left:4px;color:#111}}
 .leader .standing-pts{{color:#fff}}
-.standing-gd{{font-size:.75rem;color:#777;min-width:32px;text-align:right;padding-left:5px}}
+.standing-gd{{font-size:.75rem;color:#777;min-width:30px;text-align:right;padding-left:4px}}
 .leader .standing-gd{{color:rgba(255,255,255,.7)}}
+.sth{{display:flex;align-items:center;padding:0 5px 2px;font-size:.67rem;color:#bbb;text-transform:uppercase;letter-spacing:1px}}
+.sth .standing-name{{flex:1}}
+.shc{{min-width:26px;text-align:right;padding-left:4px}}
+.shcg{{min-width:30px;text-align:right;padding-left:4px}}
 .result-row{{display:flex;align-items:center;gap:4px;font-size:.8rem;padding:2px 4px;margin-bottom:2px;color:#555}}
 .rt{{flex:1}}.rt:last-child{{text-align:right}}
 .rs{{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;color:#111;text-align:center;min-width:40px}}
@@ -153,6 +205,17 @@ body{{font-family:'Barlow',sans-serif;background:#fff;color:#111;padding:12px}}
 .match-terrain{{background:#ddd;border-radius:3px;padding:1px 4px;font-size:.7rem;color:#555;min-width:20px;text-align:center}}
 .match-teams{{flex:1}}.vs{{color:#aaa}}
 .done-text{{color:#2e7d32;font-size:.8rem;padding:3px 5px}}
+details{{margin-top:10px}}
+details summary{{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;color:#CC2222;cursor:pointer;text-transform:uppercase;letter-spacing:1px;padding:4px 0;list-style:none;user-select:none}}
+details summary::-webkit-details-marker{{display:none}}
+details summary::before{{content:"▶  ";font-size:.65rem}}
+details[open] summary::before{{content:"▼  ";font-size:.65rem}}
+.amr{{display:flex;align-items:center;gap:5px;padding:3px 5px;border-radius:4px;margin-bottom:2px;font-size:.78rem;background:#f0f0f0;color:#333}}
+.amr.played{{background:#e8f5e9}}
+.mt{{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:#CC2222;min-width:36px;font-size:.82rem}}
+.mtr{{background:#ddd;border-radius:3px;padding:1px 4px;font-size:.68rem;color:#555;min-width:20px;text-align:center}}
+.mn{{flex:1;font-size:.78rem}}
+.ms{{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.9rem;color:#111;min-width:38px;text-align:center}}
 </style>
 </head>
 <body>
@@ -221,5 +284,20 @@ def push_to_github(html: str) -> str:
     except urllib.error.HTTPError as e:
         msg = e.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"GitHub API {e.code} — URL: {api_url}\n{msg}") from e
+
+    # Activer GitHub Pages si pas encore configuré
+    pages_url = f"https://api.github.com/repos/{user}/{repo_encoded}/pages"
+    try:
+        req = urllib.request.Request(pages_url, headers=headers)
+        urllib.request.urlopen(req)  # 200 = déjà activé, on ne fait rien
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            # Pages non activé → l'activer sur la branche main
+            body_pages = json.dumps({"source": {"branch": "main", "path": "/"}}).encode()
+            req = urllib.request.Request(pages_url, data=body_pages, headers=headers, method="POST")
+            try:
+                urllib.request.urlopen(req)
+            except urllib.error.HTTPError:
+                pass  # peut échouer si déjà en cours d'activation
 
     return f"https://{user}.github.io/{repo}/"
